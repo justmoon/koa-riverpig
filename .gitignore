@@ -1,0 +1,9 @@
+/node_modules/
+/dist/
+/.nyc_output/
+/coverage/
+/.vscode/
+
+/npm-debug.log*
+.lock-wscript
+/.tags*

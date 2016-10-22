@@ -1,0 +1,77 @@
+{
+  "name": "koa-riverpig",
+  "version": "0.0.0-semantic-release",
+  "description": "Koa logger for riverpig logging system",
+  "main": "dist/src/index.js",
+  "typings": "dist/src/index",
+  "scripts": {
+    "lint": "tslint \"src/**/*.ts\" \"test/*.spec.ts\"",
+    "build": "rm -rf dist; tsc",
+    "test": "npm run test:specs",
+    "test:specs": "mocha",
+    "precover": "rm -rf .nyc_output",
+    "cover": "nyc --extension .ts --reporter=text-summary --reporter=html mocha",
+    "prepublish": "npm run build",
+    "codecov": "codecov",
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/justmoon/koa-riverpig.git"
+  },
+  "keywords": [
+    "log",
+    "twelve-factor",
+    "logging",
+    "logger",
+    "output",
+    "stdout",
+    "simple",
+    "debug",
+    "koa",
+    "web",
+    "request"
+  ],
+  "author": "Stefan Thomas <justmoon@members.fsf.org>",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/justmoon/koa-riverpig/issues"
+  },
+  "homepage": "https://github.com/justmoon/koa-riverpig#readme",
+  "devDependencies": {
+    "@types/chalk": "^0.4.30",
+    "@types/mocha": "^2.2.32",
+    "@types/node": "^6.0.41",
+    "@types/numeral": "0.0.18",
+    "@types/sinon": "^1.16.31",
+    "benchmark": "^2.1.1",
+    "codecov": "^1.0.1",
+    "condition-circle": "^1.5.0",
+    "cz-conventional-changelog": "^1.2.0",
+    "ghooks": "^1.3.2",
+    "mocha": "^3.1.0",
+    "nyc": "^8.3.0",
+    "semantic-release": "^4.3.5",
+    "sinon": "^1.17.6",
+    "ts-node": "^1.3.0",
+    "tslint": "^3.15.1",
+    "tslint-config-standard": "^1.3.0",
+    "typescript": "^2.0.3",
+    "validate-commit-msg": "^2.8.2"
+  },
+  "dependencies": {
+    "chalk": "^1.1.3",
+    "numeral": "^1.5.3"
+  },
+  "config": {
+    "ghooks": {
+      "commit-msg": "validate-commit-msg"
+    },
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "release": {
+    "verifyConditions": "condition-circle"
+  }
+}
