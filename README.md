@@ -1,4 +1,4 @@
-# Module Name
+# Koa Riverpig
 
 [![npm][npm-image]][npm-url] [![CircleCI][circle-image]][circle-url] [![Codecov][codecov-image]][codecov-url]
 
@@ -9,3 +9,17 @@
 [codecov-image]: https://codecov.io/gh/justmoon/koa-riverpig/branch/master/graph/badge.svg
 [codecov-url]: https://codecov.io/gh/justmoon/koa-riverpig
 
+> Koa middleware for logging requests via [riverpig](https://github.com/justmoon/riverpig)
+
+## Installation
+
+``` sh
+npm install --save koa-riverpig
+```
+
+## Usage
+``` js
+// ...
+
+koaApp.use(require('koa-riverpig')({ logger: modules.log.create('koa') }))
+```
