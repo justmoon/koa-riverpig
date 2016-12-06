@@ -70,7 +70,13 @@ function dev(opts: any) {
   return function *logMiddleware(next: Function) {
     // request
     const start = Date.now()
-    logger.info('\x1B[90m<-- \x1B[;1m%s\x1B[0;90m %s\x1B[0m', this.method, this.url)
+
+    if (this.res) {
+      logger.info('\x1B[90m<-- \x1B[;1m%s\x1B[0;90m %s\x1B[0m', this.method, this.url)
+    } else {
+      // Request has no response, e.g. koa-websocket
+      logger.info('\x1B[90m<-| \x1B[;1m%s\x1B[0;90m %s\x1B[0m', this.method, this.url)
+    }
 
     try {
       yield next
@@ -84,6 +90,8 @@ function dev(opts: any) {
     // whichever happens first.
     const ctx = this
     const res = this.res
+
+    if (!res) return
 
     const done = (event: any) => {
       res.removeListener('finish', onfinish)
