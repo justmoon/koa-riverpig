@@ -26,14 +26,14 @@ const colors = {
  * Development logger.
  */
 
-function dev(opts: any) {
+function dev (opts: any) {
   opts = opts || {}
   const logger = opts.logger || require('riverpig')('koa')
 
   /**
    * Log helper.
    */
-  function log(ctx: any, start: any, len: number | null, err: any, event?: any) {
+  function log (ctx: any, start: any, len: number | null, err: any, event?: any) {
     // get the status code of the response
     const status = err
       ? (err.status || 500)
@@ -67,36 +67,35 @@ function dev(opts: any) {
     )
   }
 
-  return function *logMiddleware(next: Function) {
+  return async function logMiddleware (ctx: any, next: Function) {
     // request
     const start = Date.now()
 
-    if (this.res) {
-      logger.info('\x1B[90m<-- \x1B[;1m%s\x1B[0;90m %s\x1B[0m', this.method, this.url)
+    if (ctx.res) {
+      logger.info('\x1B[90m<-- \x1B[;1m%s\x1B[0;90m %s\x1B[0m', ctx.method, ctx.url)
     } else {
       // Request has no response, e.g. koa-websocket
-      logger.info('\x1B[90m<-| \x1B[;1m%s\x1B[0;90m %s\x1B[0m', this.method, this.url)
+      logger.info('\x1B[90m<-| \x1B[;1m%s\x1B[0;90m %s\x1B[0m', ctx.method, ctx.url)
     }
 
     try {
-      yield next
+      await next()
     } catch (err) {
       // log uncaught downstream errors
-      log(this, start, null, err)
+      log(ctx, start, null, err)
       throw err
     }
 
     // log when the response is finished or closed,
     // whichever happens first.
-    const ctx = this
-    const res = this.res
+    const res = ctx.res
 
     if (!res) return
 
     const done = (event: any) => {
       res.removeListener('finish', onfinish)
       res.removeListener('close', onclose)
-      log(ctx, start, this.length, null, event)
+      log(ctx, start, ctx.length, null, event)
     }
 
     const onfinish = done.bind(null, 'finish')
@@ -113,7 +112,7 @@ function dev(opts: any) {
  * in seconds otherwise.
  */
 
-function time(start: number) {
+function time (start: number) {
   const delta = Date.now() - start
   return delta < 10000
     ? numeral(delta).format('0,0') + 'ms'
